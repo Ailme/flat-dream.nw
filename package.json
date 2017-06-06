@@ -1,0 +1,17 @@
+{
+  "name": "flat-dream.nw",
+  "version": "1.0.1",
+  "description": "",
+  "main": "app/index.html",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mdi": "^1.8.36",
+    "nw-builder": "^3.2.0",
+    "rimraf": "^2.6.1"
+  },
+  "dependencies": {}
+}

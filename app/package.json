@@ -1,0 +1,15 @@
+{
+  "name": "upload-flat-dream",
+  "version": "1.0.1",
+  "main": "index.html",
+  "window": {
+    "width": 1000,
+    "height": 800,
+    "title": "Upload Flat Dream",
+    "icon": "home.png"
+  },
+  "dependencies": {
+    "gm": "^1.23.0",
+    "rimraf": "^2.6.1"
+  }
+}

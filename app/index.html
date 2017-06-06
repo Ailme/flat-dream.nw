@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Upload Flat Dream</title>
+    <link rel="stylesheet" href="vendor/tether.css">
+    <link rel="stylesheet" href="vendor/bootstrap.css">
+    <link rel="stylesheet" href="vendor/select2.css">
+    <link rel="stylesheet" href="vendor/materialdesignicons.css">
+    <link rel="stylesheet" href="src/main.css">
+</head>
+<body>
+<div class="container-fluid" id="app">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger" type="button" @click="onResetPage" 
+                                    :disabled="this.currentPageId == 0" title="Закрыть страницу">
+                                <i class="mdi mdi-close-circle-outline"></i>
+                            </button>
+                        </span>
+                        <select v-model="currentPageId" ref="select">
+                            <option v-for="page in pages" :value="page.id">
+                                {{ page.address }}
+                            </option>
+                        </select>
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="button" :disabled="this.currentPageId == 0"
+                                    @click="onSave" title="Сохранить" >
+                                <i class="mdi mdi-content-save"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-12">
+                    <textarea v-model="currentPage.description" class="form-control" ref="editor" rows="20"
+                              style="font-size: 14px"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="btn-toolbar">
+                <div class="input-group input-group-sm ml-2">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success" @click="onSelectSource" 
+                                    title="Выбрать папку">
+                                <i class="mdi mdi-folder-plus"></i>
+                            </button>
+                            <input type="file" nwdirectory ref="sourceDir" hidden @change="onChangeSource">
+                        </span>
+
+                    <input type="text" class="form-control" :value="sourceDir" readonly>
+
+                    <span class="input-group-btn">
+                            <button type="button" class="btn btn-secondary"  
+                                    title="Обновить список файлов" :disabled="!sourceDir.length"
+                                    @click="onReloadImages">
+                                <i class="mdi mdi-reload"></i>
+                            </button>
+                        </span>
+                </div>
+
+                <div class="input-group input-group-sm ml-2">
+                        <span class="input-group-addon">
+                            <i class="mdi mdi-arrow-right-bold"></i>
+                        </span>
+                    <input type="text" class="form-control" placeholder="каталог для загрузки" v-model="destDir"
+                           @change="onChangeDestDir">
+                </div>
+
+                <div class="input-group input-group-sm ml-2">
+                    <input type="number" class="form-control" style="width: 70px;" v-model="minSize">
+                    <span class="input-group-btn">
+                                <button type="button" class="btn btn-secondary" @click="onConvert" 
+                                        title="Изменить размер" :disabled="!images.length">
+                                    <i class="mdi mdi-arrow-compress"></i>
+                                </button>
+                            </span>
+                </div>
+
+                <div class="btn-group btn-group-sm ml-2">
+                    <button type="button" class="btn btn-secondary" @click="onUpload" 
+                            title="Загрузить на сайт" :disabled="!validateUpload">
+                        <i class="mdi mdi-upload"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-6" v-for="(image, index) in images">
+                    <table class="table table-bordered table-striped table-sm">
+                        <tr
+                            :class="{'table-info':image.converted && !image.uploaded, 'table-warning': image.upload && !image.uploaded, 'table-success': image.uploaded}">
+                            <td>{{index+1}}</td>
+                            <td>
+                                {{image.name}}<br>
+                                {{image.width}}x{{image.height}}<br>
+                                {{image.size}}
+                            </td>
+                            <td><img :src="image.href" height="32" v-if="image.href.length"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row mt-2" v-if="uploadResult.length">
+                <div class="col-sm-12">
+                    <textarea rows="10" class="form-control" style="font-size: 12px" readonly>{{uploadResult}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="vendor/jquery-3.1.1.js"></script>
+<script src="vendor/tether.js"></script>
+<script src="vendor/select2.full.js"></script>
+<script src="vendor/bootstrap.js"></script>
+<script src="vendor/vue.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>
